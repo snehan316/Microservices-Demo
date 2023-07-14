@@ -1,5 +1,7 @@
 package com.sneha.microservices.productsservice.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,19 @@ public class ProductService {
 		
 		ProductResponse response = new ProductResponse(product.getId(), product.getName(), product.getDescription(), product.getPrice());
 		
+		return response;
+	}
+	
+	public List<ProductResponse> retriveAllProducts(){
+		List<Product> products = productRepository.findAll();
+		
+		List<ProductResponse> response =  products.stream().map(product ->  mapToDto(product)).toList();
+		
+		return response;
+	}
+	
+	private ProductResponse mapToDto(Product product) {
+		ProductResponse response = new ProductResponse(product.getId(), product.getName(), product.getDescription(), product.getPrice());
 		return response;
 	}
 }
